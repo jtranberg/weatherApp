@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 
+
 //what will it do??
 //data from API
 //hooks to handle state
@@ -13,7 +14,10 @@ function App() {
   const [allData, setAllData] = useState({
     city: '',
     country:'',
-    temperature:''
+    temperature:'',
+    humidity:'',
+    temp_min:'',
+    weatherIcon:''
   })
 
   useEffect(() => {     //render api call
@@ -27,7 +31,10 @@ function App() {
    await setAllData({
     city: result.data.name,
     country:result.data.sys.country,
-    temp: result.data.main.temp
+    temp: result.data.main.temp,
+    humidity:result.data.main.humidity,
+    temp_min:result.data.main.temp_min,
+    weatherIcon:result.data.weather[0].icon
       })
     } catch(e) {
     console.log('API not loaded correctly or loaded for first time')
@@ -44,28 +51,51 @@ function App() {
         }
 return (
   <main>
-    <div className="App">
-       <h1>Check the Weather</h1>
+    <div className="form">
+       <h1 >Check the Weather</h1>
        <form onSubmit={handleSubmit}>
         <input
         value={search}
         type='text'
         name='city'
-        placeholder='City Name'
+        placeholder='Location'
         onChange={handleChange}
         />
-        <button for='city'>Search</button>
+        <button className='button' for='city'>Search</button>
       </form>
-          
-     <section>
-          <h1>{allData.city}</h1>
-          <h2>{allData.country}</h2>
-          <h3>Temperature  </h3>
-          <p>{allData.temp }°C</p>
-          <p>{allData.temp * 1.8 + 32}°F</p> {/*  convert  °C to °F* */}
-        </section>
-      </div>
-    </main>
+          <br/>
+      <section>
+       <div className='header-div'>
+        <div>
+        <div className='data'>
+         <img alt='pic' src={ 'http://openweathermap.org/img/wn/'
+             + allData.weatherIcon + '@2x.png' }/>
+              <h1 className='title'>{allData.city}</h1>
+              <h2 className='location'>{allData.country}</h2>
+          <div className='weather-description'>
+            <div>
+              <h3>Humidity  </h3>
+              <p>{allData.humidity}%</p> 
+            </div>
+            <div>
+              <h3>Temperature  </h3>
+            </div>
+            <div>
+              <p>{allData.temp }°C</p>
+              <p>{allData.temp * 1.8 + 32}°F</p> {/*  convert  °C to °F* */}
+            </div>
+            <div>
+              <h3> Min Temperature  </h3> 
+              <p>{allData.temp_min}°C</p>
+              <p>{allData.temp_min * 1.8 + 32}°F</p>
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
   );
 }
 
