@@ -68,8 +68,7 @@ return (
        <div className='header-div'>
         <div>
         <div className='data'>
-         <img alt='pic' src={ 'http://openweathermap.org/img/wn/'
-             + allData.weatherIcon + '@2x.png' }/>
+         <img alt='pic' src={ 'http://openweathermap.org/img/wn/' + allData.weatherIcon + '@2x.png' }/>
               <h1 className='title'>{allData.city}</h1>
               <h2 className='location'>{allData.country}</h2>
           <div className='weather-description'>
